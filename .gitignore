@@ -6,4 +6,5 @@ model/__pycache__
 model/deutschl
 model/Sound Fonts
 model/composer/__pycache__
+model/composer/cellular_automaton/__pycache__
 model/test.py
