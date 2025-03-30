@@ -1,0 +1,54 @@
+if section_name == 'intro':
+            # In intro, activate chords, secondary melody, and secondary bass
+            choice = random.choice([True, False])
+
+            active_instruments['chords']['pattern'] = True
+            active_instruments['secondary_melody']['pattern'] = choice
+            active_instruments['bass']['pattern'] = not choice
+            active_instruments['funky_bass']['pattern'] = False
+            active_instruments['simple_drums']['pattern'] = random.choice([True, False])
+            active_instruments['complex_drums']['pattern'] = False
+            active_instruments['melody']['pattern'] = False
+            active_instruments['catchy_melody']['pattern'] = False
+            active_instruments['bg_melody']['pattern'] = not choice
+            active_instruments['bg_melody_low']['pattern'] = choice
+        
+        elif section_name == 'breakdown':
+            # In breakdown, minimal instrumentation
+            active_instruments['chords']['pattern'] = True
+            active_instruments['secondary_melody']['pattern'] = True
+            active_instruments['bass']['pattern'] = True
+            active_instruments['funky_bass']['pattern'] = False
+            active_instruments['simple_drums']['pattern'] = False
+            active_instruments['complex_drums']['pattern'] = False
+            active_instruments['melody']['pattern'] = False
+            active_instruments['catchy_melody']['pattern'] = False
+            active_instruments['bg_melody']['pattern'] = False
+            active_instruments['bg_melody_low']['pattern'] = True
+        
+        elif section_name == 'build_up':
+            # In build-up, gradually introduce instruments
+            active_instruments['chords']['pattern'] = True
+            active_instruments['secondary_melody']['pattern'] = False
+            active_instruments['bass']['pattern'] = True
+            active_instruments['funky_bass']['pattern'] = False
+            active_instruments['simple_drums']['pattern'] = True
+            active_instruments['complex_drums']['pattern'] = False
+            active_instruments['melody']['pattern'] = True
+            active_instruments['catchy_melody']['pattern'] = False
+            active_instruments['bg_melody']['pattern'] = False
+            active_instruments['bg_melody_low']['pattern'] = True
+        
+        elif section_name == 'drop':
+            # In drop, all instruments active
+            active_instruments['chords']['pattern'] = True
+            active_instruments['secondary_melody']['pattern'] = False
+            active_instruments['bass']['pattern'] = True
+            active_instruments['funky_bass']['pattern'] = False
+            active_instruments['simple_drums']['pattern'] = False
+            active_instruments['complex_drums']['pattern'] = True
+            active_instruments['melody']['pattern'] = True
+            active_instruments['catchy_melody']['pattern'] = False
+            active_instruments['bg_melody']['pattern'] = True
+            active_instruments['bg_melody_low']['pattern'] = False
+        

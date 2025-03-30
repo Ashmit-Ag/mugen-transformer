@@ -1,5 +1,10 @@
 .vscode
-backend/
-frontend/
+backend/__pycache__
+frontend/node_modules
 
-model/
+model/__pycache__
+model/deutschl
+model/Sound Fonts
+!model/Sound Fonts/Omega.sf2
+model/composer/__pycache__
+model/test.py
