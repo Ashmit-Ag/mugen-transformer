@@ -1,19 +1,18 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import api from "../api";
 import MusicPlayer from "../components/MusicPlayer";
 
 const GeneratePage = () => {
-  // const [prompt, setPrompt] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
-  const moods = ["Cheerful", "Sorrow", "Up Lifiting", "Dark"];
-  const [audioSrc, setAudioSrc] = useState( localStorage.getItem('audioSrc') ||null);
+  const moods = ["Cheerful", "Sorrow", "Up Lifting", "Dark"];
+  const [isShow, setIsShow] = useState(!!localStorage.getItem("audioSrc")); // Show MusicPlayer if audio exists
   const userId = "1235"; 
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleGenerate = async () => {
-    if (selectedOption == "") {
+    if (!selectedOption) {
       alert("Please select a mood first");
       return;
     }
@@ -21,17 +20,19 @@ const GeneratePage = () => {
     try {
       setIsLoading(true);
       setError("");
-      setAudioSrc(null);
+      localStorage.removeItem("audioSrc"); // Clear old audio
+
       const response = await api.post(
         `/${userId}/generate-song`,
-        { mood: selectedOption, song_number:5 },
+        { mood: selectedOption, song_number: 5 },
         { responseType: "blob", timeout: 500000 }
       );
+
       setIsLoading(false);
       const data = await response.data;
       const audioUrl = URL.createObjectURL(data);
-      localStorage.setItem('audioSrc', audioUrl);
-      setAudioSrc(audioUrl);
+      localStorage.setItem("audioSrc", audioUrl);
+      setIsShow(true); // Show MusicPlayer
     } catch (error) {
       setIsLoading(false);
       console.error(error);
@@ -40,12 +41,13 @@ const GeneratePage = () => {
     }
   };
 
-
   return (
-
-    <div className=" min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
-      <h1 className="sm:text-6xl md:text-6xl lg:text-7xl text-5xl font-bold mb-8">Generate Music</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
+      <h1 className="sm:text-6xl md:text-6xl lg:text-7xl text-5xl font-bold mb-8">
+        Generate Music
+      </h1>
       <p className="text-lg mb-9">Choose a mood to create your track.</p>
+
       <div className="w-full max-w-md">
         <label className="block text-lg mb-2">Select mood</label>
         <select
@@ -70,24 +72,21 @@ const GeneratePage = () => {
         >
           {isLoading ? "Generating..." : "Generate"}
         </button>
-        {audioSrc && (
-          <audio controls className="w-full mt-4">
-            <source src={audioSrc} type="audio/wav" />
-            Your browser does not support the audio element.
-          </audio>
-        )}
-        {!audioSrc && 
-        <div class={`flex-col gap-4 mt-4 w-full flex items-center justify-center ${
-            isLoading ? "opacity-100" : "opacity-0"}`}
-        >
-          <div class="w-20 h-20 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-500 rounded-full">
-            <div class="w-16 h-16 border-4 border-transparent text-violet-400 text-2xl animate-spin flex items-center justify-center border-t-purple-500 rounded-full"></div>
+
+        {/* Loading Spinner */}
+        {!isShow && isLoading && (
+          <div className="flex flex-col gap-4 mt-4 w-full items-center justify-center">
+            <div className="w-20 h-20 border-4 border-transparent animate-spin border-t-blue-500 rounded-full">
+              <div className="w-16 h-16 border-4 border-transparent animate-spin border-t-purple-500 rounded-full"></div>
+            </div>
           </div>
-        </div>}
+        )}
       </div>
-      {/* {<MusicPlayer/>} */}
+
+      {/* Show Music Player if audio is generated */}
+      {isShow && <MusicPlayer />}
     </div>
   );
 };
 
-export default GeneratePage
+export default GeneratePage;

@@ -279,6 +279,7 @@ class DecoderLayer(tf.keras.layers.Layer):
         return out3
 
 
+
 if __name__ == "__main__":
     # Define Transformer parameters
     num_layers = 4
