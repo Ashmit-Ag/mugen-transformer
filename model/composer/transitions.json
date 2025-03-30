@@ -1,0 +1,165 @@
+{
+    "subtle": {
+      "reverse_cymbal": {
+        "probability": 0.7,
+        "duration_ticks": 480,
+        "velocity_range": [70, 90]
+      },
+      "filter_sweep": {
+        "probability": 0.6,
+        "start_cutoff": 0.2,
+        "end_cutoff": 0.8,
+        "resonance": 0.5
+      },
+      "volume_fade": {
+        "probability": 0.5,
+        "fade_in": true,
+        "fade_out": false
+      },
+      "drum_fill": {
+        "probability": 0.4,
+        "complexity": 0.3,
+        "duration_beats": 1
+      }
+    },
+    "hype": {
+      "reverse_cymbal": {
+        "probability": 0.9,
+        "duration_ticks": 960,
+        "velocity_range": [90, 120]
+      },
+      "riser": {
+        "probability": 0.8,
+        "duration_bars": 2,
+        "intensity": 0.7
+      },
+      "filter_sweep": {
+        "probability": 0.8,
+        "start_cutoff": 0.1,
+        "end_cutoff": 0.9,
+        "resonance": 0.7
+      },
+      "drum_fill": {
+        "probability": 0.9,
+        "complexity": 0.8,
+        "duration_beats": 2
+      },
+      "snare_roll": {
+        "probability": 0.7,
+        "duration_beats": 2,
+        "intensity": 0.8
+      },
+      "volume_automation": {
+        "probability": 0.6,
+        "duration_bars": 2,
+        "curve": "exponential"
+      }
+    },
+    "major": {
+      "reverse_cymbal": {
+        "probability": 1.0,
+        "duration_ticks": 1920,
+        "velocity_range": [100, 127]
+      },
+      "riser": {
+        "probability": 0.9,
+        "duration_bars": 3,
+        "intensity": 1.0
+      },
+      "filter_sweep": {
+        "probability": 0.9,
+        "start_cutoff": 0.0,
+        "end_cutoff": 1.0,
+        "resonance": 0.9
+      },
+      "drum_fill": {
+        "probability": 1.0,
+        "complexity": 1.0,
+        "duration_beats": 4
+      },
+      "snare_roll": {
+        "probability": 0.9,
+        "duration_beats": 4,
+        "intensity": 1.0
+      },
+      "volume_automation": {
+        "probability": 0.8,
+        "duration_bars": 3,
+        "curve": "exponential"
+      },
+      "white_noise_sweep": {
+        "probability": 0.7,
+        "duration_bars": 3,
+        "intensity": 0.9
+      }
+    },
+    "ending": {
+      "reverse_cymbal": {
+        "probability": 0.8,
+        "duration_ticks": 960,
+        "velocity_range": [90, 110]
+      },
+      "drum_fill": {
+        "probability": 0.9,
+        "complexity": 0.7,
+        "duration_beats": 2
+      },
+      "final_chord": {
+        "probability": 1.0,
+        "duration_ticks": 1920,
+        "velocity": 100
+      },
+      "ritardando": {
+        "probability": 0.7,
+        "intensity": 0.6
+      },
+      "fade_out": {
+        "probability": 0.6,
+        "duration_beats": 4
+      }
+    },
+    "genre_specific": {
+      "trap": {
+        "808_drop": {
+          "probability": 0.8,
+          "intensity": 0.9
+        },
+        "half_time": {
+          "probability": 0.6,
+          "duration_bars": 1
+        },
+        "vocal_sample": {
+          "probability": 0.5,
+          "types": ["hey", "yeah", "what", "let's go"]
+        }
+      },
+      "phonk": {
+        "cowbell": {
+          "probability": 0.7,
+          "pattern": "syncopated"
+        },
+        "vinyl_scratch": {
+          "probability": 0.8,
+          "intensity": 0.7
+        },
+        "distortion_increase": {
+          "probability": 0.9,
+          "duration_beats": 2
+        }
+      },
+      "ambient": {
+        "pad_swell": {
+          "probability": 0.9,
+          "duration_bars": 2
+        },
+        "delay_feedback": {
+          "probability": 0.7,
+          "intensity": 0.8
+        },
+        "reverb_increase": {
+          "probability": 0.8,
+          "duration_beats": 4
+        }
+      }
+    }
+  }
