@@ -53,41 +53,47 @@ def generate_drum_pattern(num_bars, beats_per_bar, complexity=0.5, is_phonk=Fals
         # Sixteenth notes
         grid_resolution = TICKS_PER_BEAT // 4
     
-    # Ensure grid resolution is a multiple of TICKS_PER_BEAT
-    grid_resolution = max(TICKS_PER_BEAT // 4, grid_resolution)
-    grid_resolution = (grid_resolution // (TICKS_PER_BEAT // 4)) * (TICKS_PER_BEAT // 4)
-    
     # Number of grid positions
     grid_positions = total_ticks // grid_resolution
     
-    # Generate patterns
+    # Generate kick pattern
     kick_pattern = generate_kick_pattern(grid_positions, complexity, is_phonk)
+    
+    # Generate snare pattern
     snare_pattern = generate_snare_pattern(grid_positions, complexity, is_phonk)
+    
+    # Generate hi-hat pattern
     hihat_pattern = generate_hihat_pattern(grid_positions, complexity, is_phonk)
+
+    # Generate clap pattern
     clap_pattern = generate_clap_pattern(grid_positions, complexity, is_phonk)
     
-    # Convert patterns to notes with strict timing
+    # Generate additional percussion if complexity is high
+    if complexity > 0.6:
+        percussion_pattern = generate_percussion_pattern(grid_positions, complexity, is_phonk)
+    else:
+        percussion_pattern = []
+    
+    # Convert patterns to notes
     for i, has_kick in enumerate(kick_pattern):
         if has_kick:
             time = i * grid_resolution
-            # Ensure time aligns with grid
-            time = (time // grid_resolution) * grid_resolution
             velocity = random.randint(126, 127) - 20
-            duration = grid_resolution // 2  # Fixed shorter duration for tighter timing
+            # Fixed duration to ensure consistent timing
+            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
             pattern.append((KICK, velocity, time, duration))
     
     for i, has_snare in enumerate(snare_pattern):
         if has_snare:
             time = i * grid_resolution
-            time = (time // grid_resolution) * grid_resolution
             velocity = random.randint(90, 115)
-            duration = grid_resolution // 2
+            # Fixed duration to ensure consistent timing
+            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
             pattern.append((SNARE, velocity, time, duration))
     
     for i, hat_type in enumerate(hihat_pattern):
         if hat_type > 0:
             time = i * grid_resolution
-            time = (time // grid_resolution) * grid_resolution
             
             if hat_type == 1:  # Closed hi-hat
                 note = CLOSED_HAT
@@ -99,19 +105,36 @@ def generate_drum_pattern(num_bars, beats_per_bar, complexity=0.5, is_phonk=Fals
                 note = PEDAL_HAT
                 velocity = random.randint(60, 90)
             
-            duration = grid_resolution // 2
+            # Fixed duration to ensure consistent timing
+            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
             pattern.append((note, velocity, time, duration))
     
     for i, has_clap in enumerate(clap_pattern):
         if has_clap:
             time = i * grid_resolution
-            time = (time // grid_resolution) * grid_resolution
             velocity = random.randint(126, 127) - 20
-            duration = grid_resolution // 2
+            # Fixed duration to ensure consistent timing
+            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
             pattern.append((CLAP, velocity, time, duration))
     
-    # Sort pattern by time to ensure proper ordering
-    pattern.sort(key=lambda x: x[2])
+    
+    for i, perc_type in enumerate(percussion_pattern):
+        if perc_type > 0:
+            time = i * grid_resolution
+            
+            if perc_type == 1:  # Tom
+                note = random.choice([LOW_TOM, MID_TOM, HIGH_TOM])
+                velocity = random.randint(80, 110)
+            elif perc_type == 2:  # Crash
+                note = CRASH
+                velocity = random.randint(90, 120)
+            else:  # Tambourine or other percussion
+                note = TAMBOURINE
+                velocity = random.randint(70, 100)
+            
+            # Fixed duration to ensure consistent timing
+            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
+            pattern.append((note, velocity, time, duration))
     
     return pattern
 

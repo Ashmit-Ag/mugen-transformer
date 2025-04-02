@@ -64,36 +64,6 @@ def generate_full_composition(
     # Load instruments
     instruments = load_instruments()
     
-    # Create MIDI file with multiple tracks
-    mid = mido.MidiFile()
-    mid.ticks_per_beat = TICKS_PER_BEAT
-    
-    # Create tracks for each instrument type
-    tracks = {
-        'melody': mid.add_track(name='Melody'),
-        'secondary_melody': mid.add_track(name='Secondary Melody'),
-        'background': mid.add_track(name='Background'),
-        'bass': mid.add_track(name='Bass'),
-        'chords': mid.add_track(name='Chords'),
-        'drums': mid.add_track(name='Drums')
-    }
-    
-    # Set tempo
-    for track in tracks.values():
-        track.append(mido.MetaMessage('set_tempo', tempo=mido.bpm2tempo(tempo)))
-    
-    # Set time signature
-    for track in tracks.values():
-        track.append(mido.MetaMessage('time_signature', numerator=4, denominator=4))
-    
-    # Set instrument programs for each track
-    set_instrument_program(tracks['melody'], SYNTH_VOICE, 0)
-    set_instrument_program(tracks['secondary_melody'], SYNTH_VOICE, 0)
-    set_instrument_program(tracks['background'], HARP, 0)
-    set_instrument_program(tracks['bass'], ORGAN, 0)
-    set_instrument_program(tracks['chords'], CHOIR, 0)
-    set_instrument_program(tracks['drums'], 0, 9)  # Channel 9 is for drums
-    
     # Determine time signature and beats per bar
     beats_per_bar = 4 
     
@@ -188,6 +158,9 @@ def generate_full_composition(
         has_breakdown=has_breakdown
     )
     
+    # Collect notes by channel
+    notes_by_channel = {}
+    
     # Process each section
     current_bar = 0
     for i, section in enumerate(sections):
@@ -200,55 +173,71 @@ def generate_full_composition(
         for instrument_name, instrument_config in section.active_instruments.items():
             if instrument_name in patterns and instrument_config['pattern']:
                 pattern = patterns[instrument_name]
+                channel = instrument_config['channel']
                 
-                # Map instrument to track
-                track_name = None
-                if instrument_name == 'melody':
-                    track_name = 'melody'
-                elif instrument_name == 'secondary_melody':
-                    track_name = 'secondary_melody'
-                elif instrument_name in ['bg_melody', 'bg_melody_low']:
-                    track_name = 'background'
-                elif instrument_name in ['bass', 'funky_bass']:
-                    track_name = 'bass'
-                elif instrument_name == 'chords':
-                    track_name = 'chords'
-                elif instrument_name in ['simple_drums', 'complex_drums']:
-                    track_name = 'drums'
+                # Get pattern length
+                pattern_length_ticks = get_pattern_length_ticks(pattern)
+                if pattern_length_ticks == 0:
+                    continue
                 
-                if track_name:
-                    track = tracks[track_name]
-                    pattern_length_ticks = get_pattern_length_ticks(pattern)
-                    if pattern_length_ticks == 0:
-                        continue
-                    
-                    # Calculate how many times to repeat the pattern
-                    num_repeats = max(1, section_length_ticks // pattern_length_ticks)
-                    
-                    # Repeat the pattern
-                    repeated_pattern = repeat_pattern(pattern, num_repeats, pattern_length_ticks)
-                    
-                    # Offset the pattern to the current section
-                    offset_ticks = section_start_bar * beats_per_bar * TICKS_PER_BEAT
-                    
-                    # Add notes to the track
-                    for note, velocity, time, duration in repeated_pattern:
-                        if time < section_length_ticks:
-                            # Add note on message
-                            track.append(mido.Message('note_on', note=note, velocity=velocity, 
-                                                   time=time + offset_ticks, channel=0))
-                            # Add note off message
-                            track.append(mido.Message('note_off', note=note, velocity=0,
-                                                   time=time + offset_ticks + duration, channel=0))
+                # Calculate how many times to repeat the pattern
+                num_repeats = max(1, section_length_ticks // pattern_length_ticks)
+                
+                # Repeat the pattern
+                repeated_pattern = repeat_pattern(pattern, num_repeats, pattern_length_ticks)
+                
+                # Offset the pattern to the current section
+                offset_ticks = section_start_bar * beats_per_bar * TICKS_PER_BEAT
+                
+                # Add notes to the collection
+                for note, velocity, time, duration in repeated_pattern:
+                    # Only include notes that fall within this section
+                    if time < section_length_ticks:
+                        # Add the note with the offset
+                        if channel not in notes_by_channel:
+                            notes_by_channel[channel] = []
+                        notes_by_channel[channel].append((note, velocity, time + offset_ticks, duration))
         
         # Move to the next section
         current_bar += section.num_bars
     
-    # Save the MIDI file
-    mid.save(output_file)
+    # Create the MIDI file with the collected notes
+    mid = create_midi_file_from_notes(output_file, notes_by_channel, tempo)
+    
+    # Add instrument programs to the track
+    track = mid.tracks[0]
+    
+    # Set instrument programs
+    set_instrument_program(track, SYNTH_VOICE, MELODY_CHANNEL)
+    set_instrument_program(track, SYNTH_VOICE, 4)
+    set_instrument_program(track, HARP, SECONDARY_BG_MELODY_CHANNEL)
+    set_instrument_program(track, CHOIR, BG_MELODY_CHANNEL)
+    set_instrument_program(track, ORGAN, CHORD_CHANNEL)
+    set_instrument_program(track, HALO_PAD, SECONDARY_MELODY_CHANNEL)
+
+    if is_atmospheric:
+        # set_instrument_program(track, instruments["pad_warm"]["program"], MELODY_CHANNEL)
+        set_instrument_program(track, instruments["pad_polysynth"]["program"], BG_MELODY_CHANNEL)
+    else:
+        set_instrument_program(track, instruments["lead_square"]["program"], MELODY_CHANNEL)
+        set_instrument_program(track, instruments["lead_sawtooth"]["program"], SECONDARY_MELODY_CHANNEL)
+        set_instrument_program(track, instruments["lead_voice"]["program"], SECONDARY_BG_MELODY_CHANNEL)
+    
+    if is_phonk:
+        set_instrument_program(track, instruments["synth_bass_1"]["program"], BASS_CHANNEL)
+        set_instrument_program(track, instruments["synth_bass_2"]["program"], SECONDARY_BASS_CHANNEL)
+    else:
+        set_instrument_program(track, instruments["finger_bass"]["program"], BASS_CHANNEL)
+        set_instrument_program(track, instruments["slap_bass_1"]["program"], SECONDARY_BASS_CHANNEL)
+
+    # Fix note timing to ensure playback   
+    midi = fix_note_timings(mid)
+
+    # Save the file again with the instrument programs
+    midi.save(output_file)
     print(f"Full composition saved to {output_file} ({current_bar} bars)")
     
-    return mid
+    return midi
 
 def sort_and_fix_midi_track(track):
     """Sorts MIDI messages by time and fixes delta times."""
