@@ -1,0 +1,379 @@
+"""
+Rhythm generator module for the procedural music generation system.
+Provides functions for creating drum patterns and rhythmic elements.
+"""
+
+import random
+import mido
+from .midi_utils import TICKS_PER_BEAT
+
+# MIDI note numbers for drum sounds
+KICK = 36
+SNARE = 38
+CLAP = 39
+CLOSED_HAT = 42
+PEDAL_HAT = 44
+OPEN_HAT = 46
+LOW_TOM = 41
+MID_TOM = 47
+HIGH_TOM = 50
+CRASH = 49
+RIDE = 51
+TAMBOURINE = 54
+
+PROGRAM = 12
+
+def generate_drum_pattern(num_bars, beats_per_bar, complexity=0.5, is_phonk=False):
+    """
+    Generate a drum pattern.
+    
+    Args:
+        num_bars (int): Number of bars
+        beats_per_bar (int): Number of beats per bar
+        complexity (float): Complexity of the pattern (0.0 to 1.0)
+        is_phonk (bool): Whether to use phonk-style drums
+        
+    Returns:
+        list: Drum pattern as (note, velocity, time, duration) tuples
+    """
+    pattern = []
+    
+    # Calculate total ticks
+    ticks_per_bar = beats_per_bar * TICKS_PER_BEAT
+    total_ticks = num_bars * ticks_per_bar
+    
+    # Determine the grid resolution based on complexity
+    if complexity < 0.3:
+        # Quarter notes
+        grid_resolution = TICKS_PER_BEAT
+    elif complexity < 0.6:
+        # Eighth notes
+        grid_resolution = TICKS_PER_BEAT // 2
+    else:
+        # Sixteenth notes
+        grid_resolution = TICKS_PER_BEAT // 4
+    
+    # Ensure grid resolution is a multiple of TICKS_PER_BEAT
+    grid_resolution = max(TICKS_PER_BEAT // 4, grid_resolution)
+    grid_resolution = (grid_resolution // (TICKS_PER_BEAT // 4)) * (TICKS_PER_BEAT // 4)
+    
+    # Number of grid positions
+    grid_positions = total_ticks // grid_resolution
+    
+    # Generate patterns
+    kick_pattern = generate_kick_pattern(grid_positions, complexity, is_phonk)
+    snare_pattern = generate_snare_pattern(grid_positions, complexity, is_phonk)
+    hihat_pattern = generate_hihat_pattern(grid_positions, complexity, is_phonk)
+    clap_pattern = generate_clap_pattern(grid_positions, complexity, is_phonk)
+    
+    # Convert patterns to notes with strict timing
+    for i, has_kick in enumerate(kick_pattern):
+        if has_kick:
+            time = i * grid_resolution
+            # Ensure time aligns with grid
+            time = (time // grid_resolution) * grid_resolution
+            velocity = random.randint(126, 127) - 20
+            duration = grid_resolution // 2  # Fixed shorter duration for tighter timing
+            pattern.append((KICK, velocity, time, duration))
+    
+    for i, has_snare in enumerate(snare_pattern):
+        if has_snare:
+            time = i * grid_resolution
+            time = (time // grid_resolution) * grid_resolution
+            velocity = random.randint(90, 115)
+            duration = grid_resolution // 2
+            pattern.append((SNARE, velocity, time, duration))
+    
+    for i, hat_type in enumerate(hihat_pattern):
+        if hat_type > 0:
+            time = i * grid_resolution
+            time = (time // grid_resolution) * grid_resolution
+            
+            if hat_type == 1:  # Closed hi-hat
+                note = CLOSED_HAT
+                velocity = random.randint(126, 127) - 20
+            elif hat_type == 2:  # Open hi-hat
+                note = OPEN_HAT
+                velocity = random.randint(100, 127)
+            else:  # Pedal hi-hat
+                note = PEDAL_HAT
+                velocity = random.randint(60, 90)
+            
+            duration = grid_resolution // 2
+            pattern.append((note, velocity, time, duration))
+    
+    for i, has_clap in enumerate(clap_pattern):
+        if has_clap:
+            time = i * grid_resolution
+            time = (time // grid_resolution) * grid_resolution
+            velocity = random.randint(126, 127) - 20
+            duration = grid_resolution // 2
+            pattern.append((CLAP, velocity, time, duration))
+    
+    # Sort pattern by time to ensure proper ordering
+    pattern.sort(key=lambda x: x[2])
+    
+    return pattern
+
+def generate_kick_pattern(grid_positions, complexity, is_phonk):
+    """
+    Generate a kick drum pattern.
+    
+    Args:
+        grid_positions (int): Number of grid positions
+        complexity (float): Complexity of the pattern (0.0 to 1.0)
+        is_phonk (bool): Whether to use phonk-style drums
+        
+    Returns:
+        list: Boolean list indicating kick drum hits
+    """
+    pattern = [False] * grid_positions
+    
+    # Determine the base grid (how many positions per beat)
+    positions_per_beat = 4 if complexity > 0.5 else 2
+    
+    # Place kicks on downbeats (first beat of each bar)
+    for i in range(0, grid_positions, positions_per_beat * 4):
+        pattern[i] = True
+    
+    # Add additional kicks based on complexity and style
+    if is_phonk:
+        # Phonk often has a double kick on the first beat
+        for i in range(0, grid_positions, positions_per_beat * 4):
+            if i + positions_per_beat // 2 < grid_positions:
+                pattern[i + positions_per_beat // 2] = True
+        
+        # Add kicks on the third beat for phonk
+        for i in range(positions_per_beat * 2, grid_positions, positions_per_beat * 4):
+            pattern[i] = True
+    else:
+        # Standard patterns often have kicks on beats 1 and 3
+        for i in range(0, grid_positions, positions_per_beat * 4):
+            if i + positions_per_beat * 2 < grid_positions:
+                pattern[i + positions_per_beat * 2] = True
+    
+    # Add additional kicks based on complexity
+    if complexity > 0.4:
+        # Add occasional syncopated kicks
+        for i in range(positions_per_beat, grid_positions, positions_per_beat * 2):
+            if random.random() < complexity * 0.5:
+                pattern[i] = True
+    
+    if complexity > 0.7:
+        # Add more complex kick patterns for high complexity
+        for i in range(0, grid_positions, positions_per_beat):
+            if not pattern[i] and random.random() < complexity * 0.3:
+                pattern[i] = True
+    
+    return pattern
+
+def generate_snare_pattern(grid_positions, complexity, is_phonk):
+    """
+    Generate a snare drum pattern.
+    
+    Args:
+        grid_positions (int): Number of grid positions
+        complexity (float): Complexity of the pattern (0.0 to 1.0)
+        is_phonk (bool): Whether to use phonk-style drums
+        
+    Returns:
+        list: Boolean list indicating snare drum hits
+    """
+    pattern = [False] * grid_positions
+    
+    # Determine the base grid (how many positions per beat)
+    positions_per_beat = 4 if complexity > 0.5 else 2
+    
+    # Place snares on beats 2 and 4
+    for i in range(positions_per_beat, grid_positions, positions_per_beat * 2):
+        pattern[i] = True
+    
+    # Add additional snares based on complexity and style
+    if is_phonk:
+        # Phonk often has additional snares or claps
+        for i in range(positions_per_beat * 3, grid_positions, positions_per_beat * 4):
+            if random.random() < 0.7:
+                pattern[i] = True
+    
+    # Add ghost notes and additional snares based on complexity
+    if complexity > 0.6:
+        for i in range(0, grid_positions, positions_per_beat // 2):
+            if not pattern[i] and random.random() < complexity * 0.2:
+                pattern[i] = True
+    
+    return pattern
+
+def generate_hihat_pattern(grid_positions, complexity, is_phonk):
+    """
+    Generate a hi-hat pattern.
+    
+    Args:
+        grid_positions (int): Number of grid positions
+        complexity (float): Complexity of the pattern (0.0 to 1.0)
+        is_phonk (bool): Whether to use phonk-style drums
+        
+    Returns:
+        list: Integer list indicating hi-hat type (0=none, 1=closed, 2=open, 3=pedal)
+    """
+    pattern = [0] * grid_positions
+    
+    # Determine the base grid (how many positions per beat)
+    positions_per_beat = 4 if complexity > 0.5 else 2
+    
+    # Basic hi-hat pattern - closed hats on each grid position
+    for i in range(0, grid_positions, positions_per_beat // 2):
+        pattern[i] = 1  # Closed hi-hat
+    
+    # Add open hi-hats based on complexity
+    if complexity > 0.4:
+        # Add occasional open hi-hats
+        for i in range(positions_per_beat - 1, grid_positions, positions_per_beat * 2):
+            if random.random() < complexity * 0.6:
+                pattern[i] = 2  # Open hi-hat
+    
+    # Add pedal hi-hats for more complex patterns
+    if complexity > 0.7:
+        for i in range(positions_per_beat // 2, grid_positions, positions_per_beat * 2):
+            if pattern[i] == 0 and random.random() < complexity * 0.4:
+                pattern[i] = 3  # Pedal hi-hat
+    
+    # Adjust for phonk style if needed
+    if is_phonk:
+        # Phonk often has a distinctive hi-hat pattern
+        for i in range(0, grid_positions, positions_per_beat * 2):
+            if i + positions_per_beat // 2 < grid_positions:
+                pattern[i + positions_per_beat // 2] = 2  # Open hi-hat
+    
+    return pattern
+
+def generate_clap_pattern(grid_positions, complexity, is_phonk):
+    """
+    Generate a clap pattern.
+    
+    Args:
+        grid_positions (int): Number of grid positions
+        complexity (float): Complexity of the pattern (0.0 to 1.0)
+        is_phonk (bool): Whether to use phonk-style claps
+        
+    Returns:
+        list: Boolean list indicating clap hits
+    """
+    pattern = [0] * grid_positions
+
+    # Determine the base grid (how many positions per beat)
+    positions_per_beat = 4 if complexity > 0.5 else 2
+
+    # Ensure at least two claps (one on beat 2 and one on beat 4)
+    for i in range(positions_per_beat, grid_positions, positions_per_beat * 2):
+        pattern[i] = True
+    
+    # Add occasional extra claps based on complexity
+    additional_claps = int(complexity * 4)  # Max 4 extra claps at high complexity
+    for _ in range(additional_claps):
+        index = random.randint(0, grid_positions - 1)
+        pattern[index] = True
+    
+    # If phonk style, add claps with a higher probability
+    # if is_phonk:
+    #     for i in range(0, grid_positions, positions_per_beat * 4):
+    #         if random.random() < 0.5:
+    #             pattern[i] = True
+    
+    return pattern
+
+def generate_percussion_pattern(grid_positions, complexity, is_phonk):
+    """
+    Generate a percussion pattern.
+    
+    Args:
+        grid_positions (int): Number of grid positions
+        complexity (float): Complexity of the pattern (0.0 to 1.0)
+        is_phonk (bool): Whether to use phonk-style drums
+        
+    Returns:
+        list: Integer list indicating percussion type (0=none, 1=tom, 2=crash, 3=other)
+    """
+    pattern = [0] * grid_positions
+    
+    # Determine the base grid (how many positions per beat)
+    positions_per_beat = 4 if complexity > 0.5 else 2
+    
+    # Add crash cymbals at the beginning of some bars
+    for i in range(0, grid_positions, positions_per_beat * 4):
+        if random.random() < 0.3:
+            pattern[i] = 2  # Crash
+    
+    # Add toms and other percussion based on complexity
+    if complexity > 0.6:
+        # Add occasional toms
+        for i in range(0, grid_positions, positions_per_beat):
+            if pattern[i] == 0 and random.random() < complexity * 0.2:
+                pattern[i] = 1  # Tom
+    
+    if complexity > 0.8:
+        # Add other percussion for very complex patterns
+        for i in range(0, grid_positions, positions_per_beat // 2):
+            if pattern[i] == 0 and random.random() < complexity * 0.15:
+                pattern[i] = 3  # Other percussion
+    
+    return pattern
+
+def generate_trap_fill(num_bars, beats_per_bar, intensity=0.8):
+    """
+    Generate a trap-style drum fill.
+    
+    Args:
+        num_bars (int): Number of bars for the fill
+        beats_per_bar (int): Number of beats per bar
+        intensity (float): Intensity of the fill (0.0 to 1.0)
+        
+    Returns:
+        list: Drum fill as (note, velocity, time, duration) tuples
+    """
+    fill = []
+    
+    # Calculate total ticks
+    ticks_per_bar = beats_per_bar * TICKS_PER_BEAT
+    total_ticks = num_bars * ticks_per_bar
+    
+    # Use sixteenth notes for the fill
+    grid_resolution = TICKS_PER_BEAT // 4
+    
+    # Number of grid positions
+    grid_positions = total_ticks // grid_resolution
+    
+    # Create a build-up pattern
+    for i in range(grid_positions):
+        # Determine if we should place a note at this position
+        # Higher probability towards the end for a build-up effect
+        probability = 0.2 + (i / grid_positions) * intensity
+        
+        if random.random() < probability:
+            time = i * grid_resolution
+            
+            # Choose a drum sound based on position
+            if i % 4 == 0:
+                # Downbeats get kicks or snares
+                note = random.choice([KICK, SNARE])
+                velocity = random.randint(100, 127)
+            elif i % 2 == 0:
+                # Even positions get hi-hats or snares
+                note = random.choice([CLOSED_HAT, SNARE])
+                velocity = random.randint(80, 110)
+            else:
+                # Odd positions get hi-hats or toms
+                note = random.choice([CLOSED_HAT, LOW_TOM, MID_TOM, HIGH_TOM])
+                velocity = random.randint(70, 100)
+            
+            # Add crescendo effect
+            velocity = min(127, int(velocity * (0.7 + (i / grid_positions) * 0.3)))
+            
+            # Fixed duration to ensure consistent timing
+            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
+            
+            fill.append((note, velocity, time, duration))
+    
+    # Add a crash at the end
+    fill.append((CRASH, 127, total_ticks - grid_resolution, grid_resolution))
+    
+    return fill

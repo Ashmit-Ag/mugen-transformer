@@ -1,0 +1,632 @@
+{
+    "piano": {
+        "name": "Acoustic Grand Piano",
+        "program": 0,
+        "family": "Piano"
+    },
+    "bright_piano": {
+        "name": "Bright Acoustic Piano",
+        "program": 0,
+        "family": "Piano"
+    },
+    "electric_piano": {
+        "name": "Electric Piano 1",
+        "program": 0,
+        "family": "Piano"
+    },
+    "rhodes": {
+        "name": "Electric Piano 2",
+        "program": 0,
+        "family": "Piano"
+    },
+    "harpsichord": {
+        "name": "Harpsichord",
+        "program": 0,
+        "family": "Piano"
+    },
+    "clavinet": {
+        "name": "Clavinet",
+        "program": 0,
+        "family": "Piano"
+    },
+    "celesta": {
+        "name": "Celesta",
+        "program": 0,
+        "family": "Chromatic Percussion"
+    },
+    "glockenspiel": {
+        "name": "Glockenspiel",
+        "program": 0,
+        "family": "Chromatic Percussion"
+    },
+    "music_box": {
+        "name": "Music Box",
+        "program": 0,
+        "family": "Chromatic Percussion"
+    },
+    "vibraphone": {
+        "name": "Vibraphone",
+        "program": 0,
+        "family": "Chromatic Percussion"
+    },
+    "marimba": {
+        "name": "Marimba",
+        "program": 0,
+        "family": "Chromatic Percussion"
+    },
+    "xylophone": {
+        "name": "Xylophone",
+        "program": 0,
+        "family": "Chromatic Percussion"
+    },
+    "tubular_bells": {
+        "name": "Tubular Bells",
+        "program": 0,
+        "family": "Chromatic Percussion"
+    },
+    "dulcimer": {
+        "name": "Dulcimer",
+        "program": 0,
+        "family": "Chromatic Percussion"
+    },
+    "organ": {
+        "name": "Drawbar Organ",
+        "program": 0,
+        "family": "Organ"
+    },
+    "percussive_organ": {
+        "name": "Percussive Organ",
+        "program": 0,
+        "family": "Organ"
+    },
+    "rock_organ": {
+        "name": "Rock Organ",
+        "program": 0,
+        "family": "Organ"
+    },
+    "church_organ": {
+        "name": "Church Organ",
+        "program": 0,
+        "family": "Organ"
+    },
+    "reed_organ": {
+        "name": "Reed Organ",
+        "program": 0,
+        "family": "Organ"
+    },
+    "accordion": {
+        "name": "Accordion",
+        "program": 0,
+        "family": "Organ"
+    },
+    "harmonica": {
+        "name": "Harmonica",
+        "program": 0,
+        "family": "Organ"
+    },
+    "tango_accordion": {
+        "name": "Tango Accordion",
+        "program": 0,
+        "family": "Organ"
+    },
+    "nylon_guitar": {
+        "name": "Acoustic Guitar (nylon)",
+        "program": 0,
+        "family": "Guitar"
+    },
+    "steel_guitar": {
+        "name": "Acoustic Guitar (steel)",
+        "program": 0,
+        "family": "Guitar"
+    },
+    "jazz_guitar": {
+        "name": "Electric Guitar (jazz)",
+        "program": 0,
+        "family": "Guitar"
+    },
+    "clean_guitar": {
+        "name": "Electric Guitar (clean)",
+        "program": 0,
+        "family": "Guitar"
+    },
+    "muted_guitar": {
+        "name": "Electric Guitar (muted)",
+        "program": 0,
+        "family": "Guitar"
+    },
+    "overdriven_guitar": {
+        "name": "Overdriven Guitar",
+        "program": 0,
+        "family": "Guitar"
+    },
+    "distortion_guitar": {
+        "name": "Distortion Guitar",
+        "program": 0,
+        "family": "Guitar"
+    },
+    "guitar_harmonics": {
+        "name": "Guitar Harmonics",
+        "program": 0,
+        "family": "Guitar"
+    },
+    "acoustic_bass": {
+        "name": "Acoustic Bass",
+        "program": 0,
+        "family": "Bass"
+    },
+    "finger_bass": {
+        "name": "Electric Bass (finger)",
+        "program": 0,
+        "family": "Bass"
+    },
+    "pick_bass": {
+        "name": "Electric Bass (pick)",
+        "program": 0,
+        "family": "Bass"
+    },
+    "fretless_bass": {
+        "name": "Fretless Bass",
+        "program": 0,
+        "family": "Bass"
+    },
+    "slap_bass_1": {
+        "name": "Slap Bass 1",
+        "program": 0,
+        "family": "Bass"
+    },
+    "slap_bass_2": {
+        "name": "Slap Bass 2",
+        "program": 0,
+        "family": "Bass"
+    },
+    "synth_bass_1": {
+        "name": "Synth Bass 1",
+        "program": 0,
+        "family": "Bass"
+    },
+    "synth_bass_2": {
+        "name": "Synth Bass 2",
+        "program": 0,
+        "family": "Bass"
+    },
+    "violin": {
+        "name": "Violin",
+        "program": 0,
+        "family": "Strings"
+    },
+    "viola": {
+        "name": "Viola",
+        "program": 0,
+        "family": "Strings"
+    },
+    "cello": {
+        "name": "Cello",
+        "program": 0,
+        "family": "Strings"
+    },
+    "contrabass": {
+        "name": "Contrabass",
+        "program": 0,
+        "family": "Strings"
+    },
+    "tremolo_strings": {
+        "name": "Tremolo Strings",
+        "program": 0,
+        "family": "Strings"
+    },
+    "pizzicato_strings": {
+        "name": "Pizzicato Strings",
+        "program": 0,
+        "family": "Strings"
+    },
+    "orchestral_harp": {
+        "name": "Orchestral Harp",
+        "program": 0,
+        "family": "Strings"
+    },
+    "timpani": {
+        "name": "Timpani",
+        "program": 0,
+        "family": "Strings"
+    },
+    "string_ensemble_1": {
+        "name": "String Ensemble 1",
+        "program": 0,
+        "family": "Ensemble"
+    },
+    "string_ensemble_2": {
+        "name": "String Ensemble 2",
+        "program": 0,
+        "family": "Ensemble"
+    },
+    "synth_strings_1": {
+        "name": "Synth Strings 1",
+        "program": 0,
+        "family": "Ensemble"
+    },
+    "synth_strings_2": {
+        "name": "Synth Strings 2",
+        "program": 0,
+        "family": "Ensemble"
+    },
+    "choir_aahs": {
+        "name": "Choir Aahs",
+        "program": 0,
+        "family": "Ensemble"
+    },
+    "voice_oohs": {
+        "name": "Voice Oohs",
+        "program": 0,
+        "family": "Ensemble"
+    },
+    "synth_choir": {
+        "name": "Synth Choir",
+        "program": 0,
+        "family": "Ensemble"
+    },
+    "orchestra_hit": {
+        "name": "Orchestra Hit",
+        "program": 0,
+        "family": "Ensemble"
+    },
+    "trumpet": {
+        "name": "Trumpet",
+        "program": 0,
+        "family": "Brass"
+    },
+    "trombone": {
+        "name": "Trombone",
+        "program": 0,
+        "family": "Brass"
+    },
+    "tuba": {
+        "name": "Tuba",
+        "program": 0,
+        "family": "Brass"
+    },
+    "muted_trumpet": {
+        "name": "Muted Trumpet",
+        "program": 0,
+        "family": "Brass"
+    },
+    "french_horn": {
+        "name": "French Horn",
+        "program": 0,
+        "family": "Brass"
+    },
+    "brass_section": {
+        "name": "Brass Section",
+        "program": 0,
+        "family": "Brass"
+    },
+    "synth_brass_1": {
+        "name": "Synth Brass 1",
+        "program": 0,
+        "family": "Brass"
+    },
+    "synth_brass_2": {
+        "name": "Synth Brass 2",
+        "program": 0,
+        "family": "Brass"
+    },
+    "soprano_sax": {
+        "name": "Soprano Sax",
+        "program": 0,
+        "family": "Reed"
+    },
+    "alto_sax": {
+        "name": "Alto Sax",
+        "program": 0,
+        "family": "Reed"
+    },
+    "tenor_sax": {
+        "name": "Tenor Sax",
+        "program": 0,
+        "family": "Reed"
+    },
+    "baritone_sax": {
+        "name": "Baritone Sax",
+        "program": 0,
+        "family": "Reed"
+    },
+    "oboe": {
+        "name": "Oboe",
+        "program": 0,
+        "family": "Reed"
+    },
+    "english_horn": {
+        "name": "English Horn",
+        "program": 0,
+        "family": "Reed"
+    },
+    "bassoon": {
+        "name": "Bassoon",
+        "program": 0,
+        "family": "Reed"
+    },
+    "clarinet": {
+        "name": "Clarinet",
+        "program": 0,
+        "family": "Reed"
+    },
+    "piccolo": {
+        "name": "Piccolo",
+        "program": 0,
+        "family": "Pipe"
+    },
+    "flute": {
+        "name": "Flute",
+        "program": 0,
+        "family": "Pipe"
+    },
+    "recorder": {
+        "name": "Recorder",
+        "program": 0,
+        "family": "Pipe"
+    },
+    "pan_flute": {
+        "name": "Pan Flute",
+        "program": 0,
+        "family": "Pipe"
+    },
+    "blown_bottle": {
+        "name": "Blown Bottle",
+        "program": 0,
+        "family": "Pipe"
+    },
+    "shakuhachi": {
+        "name": "Shakuhachi",
+        "program": 0,
+        "family": "Pipe"
+    },
+    "whistle": {
+        "name": "Whistle",
+        "program": 0,
+        "family": "Pipe"
+    },
+    "ocarina": {
+        "name": "Ocarina",
+        "program": 0,
+        "family": "Pipe"
+    },
+    "lead_square": {
+        "name": "Lead 1 (square)",
+        "program": 0,
+        "family": "Synth Lead"
+    },
+    "lead_sawtooth": {
+        "name": "Lead 2 (sawtooth)",
+        "program": 0,
+        "family": "Synth Lead"
+    },
+    "lead_calliope": {
+        "name": "Lead 3 (calliope)",
+        "program": 0,
+        "family": "Synth Lead"
+    },
+    "lead_chiff": {
+        "name": "Lead 4 (chiff)",
+        "program": 0,
+        "family": "Synth Lead"
+    },
+    "lead_charang": {
+        "name": "Lead 5 (charang)",
+        "program": 0,
+        "family": "Synth Lead"
+    },
+    "lead_voice": {
+        "name": "Lead 6 (voice)",
+        "program": 0,
+        "family": "Synth Lead"
+    },
+    "lead_fifths": {
+        "name": "Lead 7 (fifths)",
+        "program": 0,
+        "family": "Synth Lead"
+    },
+    "lead_bass": {
+        "name": "Lead 8 (bass + lead)",
+        "program": 0,
+        "family": "Synth Lead"
+    },
+    "pad_new_age": {
+        "name": "Pad 1 (new age)",
+        "program": 0,
+        "family": "Synth Pad"
+    },
+    "pad_warm": {
+        "name": "Pad 2 (warm)",
+        "program": 0,
+        "family": "Synth Pad"
+    },
+    "pad_polysynth": {
+        "name": "Pad 3 (polysynth)",
+        "program": 0,
+        "family": "Synth Pad"
+    },
+    "pad_choir": {
+        "name": "Pad 4 (choir)",
+        "program": 0,
+        "family": "Synth Pad"
+    },
+    "pad_bowed": {
+        "name": "Pad 5 (bowed)",
+        "program": 0,
+        "family": "Synth Pad"
+    },
+    "pad_metallic": {
+        "name": "Pad 6 (metallic)",
+        "program": 0,
+        "family": "Synth Pad"
+    },
+    "pad_halo": {
+        "name": "Pad 7 (halo)",
+        "program": 0,
+        "family": "Synth Pad"
+    },
+    "pad_sweep": {
+        "name": "Pad 8 (sweep)",
+        "program": 0,
+        "family": "Synth Pad"
+    },
+    "fx_rain": {
+        "name": "FX 1 (rain)",
+        "program": 0,
+        "family": "Synth Effects"
+    },
+    "fx_soundtrack": {
+        "name": "FX 2 (soundtrack)",
+        "program": 0,
+        "family": "Synth Effects"
+    },
+    "fx_crystal": {
+        "name": "FX 3 (crystal)",
+        "program": 0,
+        "family": "Synth Effects"
+    },
+    "fx_atmosphere": {
+        "name": "FX 4 (atmosphere)",
+        "program": 0,
+        "family": "Synth Effects"
+    },
+    "fx_brightness": {
+        "name": "FX 5 (brightness)",
+        "program": 0,
+        "family": "Synth Effects"
+    },
+    "fx_goblins": {
+        "name": "FX 6 (goblins)",
+        "program": 0,
+        "family": "Synth Effects"
+    },
+    "fx_echoes": {
+        "name": "FX 7 (echoes)",
+        "program": 0,
+        "family": "Synth Effects"
+    },
+    "fx_sci-fi": {
+        "name": "FX 8 (sci-fi)",
+        "program": 0,
+        "family": "Synth Effects"
+    },
+    "sitar": {
+        "name": "Sitar",
+        "program": 0,
+        "family": "Ethnic"
+    },
+    "banjo": {
+        "name": "Banjo",
+        "program": 0,
+        "family": "Ethnic"
+    },
+    "shamisen": {
+        "name": "Shamisen",
+        "program": 0,
+        "family": "Ethnic"
+    },
+    "koto": {
+        "name": "Koto",
+        "program": 0,
+        "family": "Ethnic"
+    },
+    "kalimba": {
+        "name": "Kalimba",
+        "program": 0,
+        "family": "Ethnic"
+    },
+    "bagpipe": {
+        "name": "Bagpipe",
+        "program": 0,
+        "family": "Ethnic"
+    },
+    "fiddle": {
+        "name": "Fiddle",
+        "program": 0,
+        "family": "Ethnic"
+    },
+    "shanai": {
+        "name": "Shanai",
+        "program": 0,
+        "family": "Ethnic"
+    },
+    "tinkle_bell": {
+        "name": "Tinkle Bell",
+        "program": 0,
+        "family": "Percussive"
+    },
+    "agogo": {
+        "name": "Agogo",
+        "program": 0,
+        "family": "Percussive"
+    },
+    "steel_drums": {
+        "name": "Steel Drums",
+        "program": 0,
+        "family": "Percussive"
+    },
+    "woodblock": {
+        "name": "Woodblock",
+        "program": 0,
+        "family": "Percussive"
+    },
+    "taiko_drum": {
+        "name": "Taiko Drum",
+        "program": 0,
+        "family": "Percussive"
+    },
+    "melodic_tom": {
+        "name": "Melodic Tom",
+        "program": 0,
+        "family": "Percussive"
+    },
+    "synth_drum": {
+        "name": "Synth Drum",
+        "program": 0,
+        "family": "Percussive"
+    },
+    "reverse_cymbal": {
+        "name": "Reverse Cymbal",
+        "program": 0,
+        "family": "Percussive"
+    },
+    "guitar_fret_noise": {
+        "name": "Guitar Fret Noise",
+        "program": 0,
+        "family": "Sound Effects"
+    },
+    "breath_noise": {
+        "name": "Breath Noise",
+        "program": 0,
+        "family": "Sound Effects"
+    },
+    "seashore": {
+        "name": "Seashore",
+        "program": 0,
+        "family": "Sound Effects"
+    },
+    "bird_tweet": {
+        "name": "Bird Tweet",
+        "program": 0,
+        "family": "Sound Effects"
+    },
+    "telephone_ring": {
+        "name": "Telephone Ring",
+        "program": 0,
+        "family": "Sound Effects"
+    },
+    "helicopter": {
+        "name": "Helicopter",
+        "program": 0,
+        "family": "Sound Effects"
+    },
+    "applause": {
+        "name": "Applause",
+        "program": 0,
+        "family": "Sound Effects"
+    },
+    "gunshot": {
+        "name": "Gunshot",
+        "program": 0,
+        "family": "Sound Effects"
+    }
+}
