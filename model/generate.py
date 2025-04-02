@@ -8,6 +8,7 @@ import sys
 from .composer.music_generator import generate_full_composition
 from .composer.music_theory import MAJOR_SCALE, MINOR_SCALE
 from .listen import midi_to_wav
+from .listen2 import midi_to_audio
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 from transformer import Transformer
@@ -196,8 +197,8 @@ def generate_midi(tempo=120, output_file="standard", scale_type=0):
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     sf2_file = os.path.join(script_dir, "Sound Fonts", "Omega.sf2")
-    midi_to_wav(f"{output_file}.mid", sf2_file, f"{output_file}.wav")
-
+    # midi_to_wav(f"{output_file}.mid", sf2_file, f"{output_file}.wav")
+    midi_to_audio(f"{output_file}.mid", sf2_file, f"{output_file}.wav", f"{output_file}.mp3")
 
 
 

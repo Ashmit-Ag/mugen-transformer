@@ -91,18 +91,18 @@ def generate_song(id):
 
 
     if mood == 'Cheerful':
-        tempo = 130
+        tempo = 110
     elif mood == 'Sorrow':
         tempo = 104
         scale_type = 1
     elif mood == 'Up Lifting':
-        tempo = 120
+        tempo = 110
         scale_type = 0
     elif mood == 'Dark':
-        tempo = 100
+        tempo = 94
         scale_type = 1
     
     generate_midi(tempo=tempo, output_file=f"{id}-{song_number}", scale_type=scale_type)
 
-    file_path = f"{id}-{song_number}.wav"
+    file_path = f"{id}-{song_number}.mp3"
     return send_file(file_path, as_attachment=True), 200

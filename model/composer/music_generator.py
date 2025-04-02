@@ -92,7 +92,7 @@ def generate_full_composition(
     # Adjust velocities
     if octave_shift > 0:
         # Original melody is lower, make it quieter
-        melody = adjust_velocity(melody, 1.2)
+        melody = adjust_velocity(melody, 1.0)
         secondary_melody = adjust_velocity(secondary_melody, 0.8)
     else:
         # Original melody is higher, keep it louder

@@ -87,7 +87,7 @@ def generate_song_structure(num_bars=44, style='trap', is_epic=False, is_phonk=F
         structure_pattern = ['intro', 'verse', 'pre_chorus', 'pre_chorus', 'verse', 'pre_chorus', 'chorus', 'bridge', 'chorus', 'outro'][:num_sections]
     else:
         # Complex structure for longer songs
-        base_pattern = ['intro', 'verse', 'pre_chorus', 'chorus', 'verse', 'pre_chorus', 'chorus']
+        base_pattern = ['intro', 'verse', 'pre_chorus', 'pre_chorus', 'verse', 'pre_chorus', 'pre_chorus']
         
         # Add breakdown and build-up if requested
         if has_breakdown:
