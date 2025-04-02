@@ -22,6 +22,7 @@ RIDE = 51
 TAMBOURINE = 54
 
 PROGRAM = 12
+MIN_NOTE_DURATION = 60
 
 def generate_drum_pattern(num_bars, beats_per_bar, complexity=0.5, is_phonk=False):
     """
@@ -78,9 +79,9 @@ def generate_drum_pattern(num_bars, beats_per_bar, complexity=0.5, is_phonk=Fals
     for i, has_kick in enumerate(kick_pattern):
         if has_kick:
             time = i * grid_resolution
-            velocity = random.randint(126, 127) - 20
+            velocity = random.randint(126, 127) - 10
             # Fixed duration to ensure consistent timing
-            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
+            duration = max(MIN_NOTE_DURATION, grid_resolution)
             pattern.append((KICK, velocity, time, duration))
     
     for i, has_snare in enumerate(snare_pattern):
@@ -88,7 +89,7 @@ def generate_drum_pattern(num_bars, beats_per_bar, complexity=0.5, is_phonk=Fals
             time = i * grid_resolution
             velocity = random.randint(90, 115)
             # Fixed duration to ensure consistent timing
-            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
+            duration = max(MIN_NOTE_DURATION, grid_resolution)
             pattern.append((SNARE, velocity, time, duration))
     
     for i, hat_type in enumerate(hihat_pattern):
@@ -106,7 +107,7 @@ def generate_drum_pattern(num_bars, beats_per_bar, complexity=0.5, is_phonk=Fals
                 velocity = random.randint(60, 90)
             
             # Fixed duration to ensure consistent timing
-            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
+            duration = max(MIN_NOTE_DURATION, grid_resolution)
             pattern.append((note, velocity, time, duration))
     
     for i, has_clap in enumerate(clap_pattern):
@@ -114,7 +115,7 @@ def generate_drum_pattern(num_bars, beats_per_bar, complexity=0.5, is_phonk=Fals
             time = i * grid_resolution
             velocity = random.randint(126, 127) - 20
             # Fixed duration to ensure consistent timing
-            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
+            duration = max(MIN_NOTE_DURATION, grid_resolution)
             pattern.append((CLAP, velocity, time, duration))
     
     
@@ -133,7 +134,7 @@ def generate_drum_pattern(num_bars, beats_per_bar, complexity=0.5, is_phonk=Fals
                 velocity = random.randint(70, 100)
             
             # Fixed duration to ensure consistent timing
-            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
+            duration = max(MIN_NOTE_DURATION, grid_resolution)
             pattern.append((note, velocity, time, duration))
     
     return pattern
@@ -392,7 +393,7 @@ def generate_trap_fill(num_bars, beats_per_bar, intensity=0.8):
             velocity = min(127, int(velocity * (0.7 + (i / grid_positions) * 0.3)))
             
             # Fixed duration to ensure consistent timing
-            duration = min(grid_resolution, TICKS_PER_BEAT // 4)
+            duration = max(MIN_NOTE_DURATION, grid_resolution)
             
             fill.append((note, velocity, time, duration))
     
